@@ -1,21 +1,38 @@
-import React from 'react';
-import { Card, InputGroup, Button, FormControl, ListGroup } from 'react-bootstrap';
+import React, { useCallback, useState } from 'react';
+import { Card, Form, InputGroup, Button, FormControl, ListGroup } from 'react-bootstrap';
 
 function Home() {
+  const [taskList, setTaskList] = useState<String[]>([]);
+
+  const handleSubmit = useCallback((event) => {
+    event.preventDefault();
+    const input = event.target[0];
+
+    setTaskList([...taskList, input.value]);
+    input.value = '';
+    console.log(taskList);
+  }, [taskList]);
+
   return (
     <div>
       <h1>To-Do List</h1>
 
-      <InputGroup style={{ width: '40%' }}>
-        <FormControl
-          placeholder="Insira a tarefa"
-          aria-label="Insira a tarefa"
-          aria-describedby="basic-addon2"
-        />
-        <InputGroup.Append>
-          <Button variant="outline-primary">Adicionar</Button>
-        </InputGroup.Append>
-      </InputGroup>
+      <Form onSubmit={handleSubmit}>
+        <InputGroup style={{ width: '40%' }} >
+          <FormControl
+            placeholder="Insira a tarefa"
+            aria-label="Insira a tarefa"
+            aria-describedby="basic-addon2"
+          />
+          <InputGroup.Append>
+            <Button
+              type="submit"
+              variant="outline-primary"
+            >Adicionar
+          </Button>
+          </InputGroup.Append>
+        </InputGroup>
+      </Form>
 
       <br />
       <br />
