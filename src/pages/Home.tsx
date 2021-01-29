@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
-import { Card, Form, InputGroup, Button, FormControl, ListGroup } from 'react-bootstrap';
+import { Card, Form, InputGroup, Button, FormControl, ListGroup, Badge } from 'react-bootstrap';
 
 function Home() {
-  const [taskList, setTaskList] = useState<String[]>([]);
+  const [taskList, setTaskList] = useState<string[]>([]);
 
   const handleSubmit = useCallback((event) => {
     event.preventDefault();
@@ -10,7 +10,6 @@ function Home() {
 
     setTaskList([...taskList, input.value]);
     input.value = '';
-    console.log(taskList);
   }, [taskList]);
 
   return (
@@ -38,28 +37,22 @@ function Home() {
       <br />
 
       <Card style={{ width: '40%' }}>
-        <Card.Header>Atividades</Card.Header>
+        <Card.Header>Lista de tarefas</Card.Header>
         <ListGroup variant="flush" >
-          <ListGroup.Item style={{ justifyContent: 'space-between', display: 'flex' }}>
-            Atividade 1
-            <div>
-              <Button variant="primary">Concluir</Button>
-              <Button variant="danger">Excluir</Button>
-            </div>
-          </ListGroup.Item>
-          <ListGroup.Item style={{ justifyContent: 'space-between', display: 'flex' }}>
-            Atividade 2
-            <div>
-              <Button variant="primary">Concluir</Button>
-              <Button variant="danger">Excluir</Button>
-            </div>
-          </ListGroup.Item>
-          <ListGroup.Item style={{ justifyContent: 'space-between', display: 'flex' }}>
-            Atividade 3
-            <div>
-              <Button variant="primary">Concluir</Button>
-              <Button variant="danger">Excluir</Button>
-            </div>
+          {taskList && (taskList.map(task => (
+            <ListGroup.Item
+              style={{ justifyContent: 'space-between', display: 'flex' }}
+              key={task}
+            >
+              {task}
+              <div>
+                <Button variant="primary">Concluir</Button>
+                <Button variant="danger">Excluir</Button>
+              </div>
+            </ListGroup.Item>
+          )))}
+          <ListGroup.Item >
+            Atualmente com <Badge pill variant="info">{taskList.length}</Badge> tarefas cadastradas.
           </ListGroup.Item>
         </ListGroup>
       </Card>
