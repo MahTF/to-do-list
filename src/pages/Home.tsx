@@ -12,6 +12,12 @@ function Home() {
     input.value = '';
   }, [taskList]);
 
+  const handleDelete = useCallback(index => {
+    const copy = [...taskList];
+    copy.splice(index, 1);
+    setTaskList(copy);
+  }, [taskList]);
+
   return (
     <div>
       <h1>To-Do List</h1>
@@ -39,15 +45,18 @@ function Home() {
       <Card style={{ width: '40%' }}>
         <Card.Header>Lista de tarefas</Card.Header>
         <ListGroup variant="flush" >
-          {taskList && (taskList.map(task => (
+          {taskList && (taskList.map((task, index) => (
             <ListGroup.Item
               style={{ justifyContent: 'space-between', display: 'flex' }}
-              key={task}
+              key={index}
             >
               {task}
               <div>
                 <Button variant="primary">Concluir</Button>
-                <Button variant="danger">Excluir</Button>
+                <Button
+                  variant="danger"
+                  onClick={() => handleDelete(index)}
+                >Excluir</Button>
               </div>
             </ListGroup.Item>
           )))}
