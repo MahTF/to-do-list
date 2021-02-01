@@ -1,15 +1,26 @@
 import React, { useCallback, useState } from 'react';
 import { Card, Form, InputGroup, Button, FormControl, ListGroup, Badge } from 'react-bootstrap';
 
+interface Task {
+  title: string;
+  status: boolean;
+}
+
 function Home() {
-  const [taskList, setTaskList] = useState<string[]>([]);
+  const [taskList, setTaskList] = useState<Task[]>([]);
 
   const handleSubmit = useCallback((event) => {
     event.preventDefault();
-    const input = event.target[0];
+    const input: Task = { title: event.target[0].value, status: false }
 
-    setTaskList([...taskList, input.value]);
-    input.value = '';
+    setTaskList([...taskList, input]);
+    event.target[0].value = '';
+  }, [taskList]);
+
+  const handleStatus = useCallback(index => {
+    const copy = [...taskList];
+    copy[index].status = !copy[index].status;
+    setTaskList(copy);
   }, [taskList]);
 
   const handleDelete = useCallback(index => {
@@ -50,9 +61,14 @@ function Home() {
               style={{ justifyContent: 'space-between', display: 'flex' }}
               key={index}
             >
-              {task}
+              <p style={task.status ? { textDecoration: 'line-through' } : {}}>
+                {task.title}
+              </p>
               <div>
-                <Button variant="primary">Concluir</Button>
+                <Button
+                  variant="primary"
+                  onClick={() => handleStatus(index)}
+                >Concluir</Button>
                 <Button
                   variant="danger"
                   onClick={() => handleDelete(index)}
@@ -65,7 +81,7 @@ function Home() {
           </ListGroup.Item>
         </ListGroup>
       </Card>
-    </div>
+    </div >
   );
 }
 
