@@ -1,5 +1,18 @@
 import React, { useCallback, useState } from 'react';
-import { Card, Form, InputGroup, Button, FormControl, ListGroup, Badge } from 'react-bootstrap';
+
+import {
+  Container,
+  Title,
+  Form,
+  InputGroup,
+  Card,
+  Button,
+  FormControl,
+  ListGroup,
+  ListGroupItem,
+  Badge,
+  TaskTitle
+} from '../styles/pages/Home';
 
 interface Task {
   title: string;
@@ -30,11 +43,11 @@ function Home() {
   }, [taskList]);
 
   return (
-    <div>
-      <h1>To-Do List</h1>
+    <Container>
+      <Title>To-Do List</Title>
 
       <Form onSubmit={handleSubmit}>
-        <InputGroup style={{ width: '40%' }} >
+        <InputGroup>
           <FormControl
             placeholder="Insira a tarefa"
             aria-label="Insira a tarefa"
@@ -50,20 +63,16 @@ function Home() {
         </InputGroup>
       </Form>
 
-      <br />
-      <br />
-
-      <Card style={{ width: '40%' }}>
+      <Card>
         <Card.Header>Lista de tarefas</Card.Header>
         <ListGroup variant="flush" >
           {taskList && (taskList.map((task, index) => (
-            <ListGroup.Item
-              style={{ justifyContent: 'space-between', display: 'flex' }}
-              key={index}
-            >
-              <p style={task.status ? { textDecoration: 'line-through' } : {}}>
+            <ListGroupItem key={index}>
+              <TaskTitle
+                style={task.status ? { textDecoration: 'line-through' } : {}}
+              >
                 {task.title}
-              </p>
+              </TaskTitle>
               <div>
                 <Button
                   variant="primary"
@@ -74,14 +83,14 @@ function Home() {
                   onClick={() => handleDelete(index)}
                 >Excluir</Button>
               </div>
-            </ListGroup.Item>
+            </ListGroupItem>
           )))}
           <ListGroup.Item >
             Atualmente com <Badge pill variant="info">{taskList.length}</Badge> tarefas cadastradas.
           </ListGroup.Item>
         </ListGroup>
       </Card>
-    </div >
+    </Container >
   );
 }
 

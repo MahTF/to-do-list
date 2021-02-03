@@ -106,7 +106,7 @@ Projeto para estudo de React visando realizar uma TO-DO List.
 
 1.  **`pages`**:  Cada página da aplicação.
 
-2.  **`styles`**: Estilos globais.
+2.  **`styles`**: Estilos globais e de cada página.
    
 
 ## :memo: License
