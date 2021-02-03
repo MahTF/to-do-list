@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { FiTrash2, FiSquare, FiXSquare } from 'react-icons/fi';
 
 import {
   Container,
@@ -77,11 +78,18 @@ function Home() {
                 <Button
                   variant="primary"
                   onClick={() => handleStatus(index)}
-                >Concluir</Button>
+                >
+                  {task.status ?
+                    <FiXSquare size={20} color={'#fff'} /> :
+                    <FiSquare size={20} color={'#fff'} />
+                  }
+                </Button>
                 <Button
                   variant="danger"
                   onClick={() => handleDelete(index)}
-                >Excluir</Button>
+                >
+                  <FiTrash2 size={20} color={'#fff'} />
+                </Button>
               </div>
             </ListGroupItem>
           )))}

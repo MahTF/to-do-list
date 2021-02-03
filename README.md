@@ -97,6 +97,7 @@ Projeto para estudo de React visando realizar uma TO-DO List.
 ### :package: Pacotes
 - [Styled Components](https://styled-components.com/)
 - [React Bootstrap](https://react-bootstrap.github.io/)
+- [React Icons](https://react-icons.github.io/)
 
 ### Uma olhadinha em `./src`.
 
