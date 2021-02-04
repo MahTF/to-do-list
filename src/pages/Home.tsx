@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { FiTrash2, FiSquare, FiXSquare } from 'react-icons/fi';
 
 import {
@@ -22,6 +22,17 @@ interface Task {
 
 function Home() {
   const [taskList, setTaskList] = useState<Task[]>([]);
+
+  useEffect(() => {
+    const storage = localStorage.getItem("ToDoList/tasks");
+    if (storage !== null) {
+      setTaskList(JSON.parse(storage));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("ToDoList/tasks", JSON.stringify(taskList));
+  }, [taskList]);
 
   const handleSubmit = useCallback((event) => {
     event.preventDefault();
