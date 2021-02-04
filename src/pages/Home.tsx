@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { FiTrash2, FiSquare, FiXSquare } from 'react-icons/fi';
+import { FiTrash, FiTrash2, FiSquare, FiXSquare } from 'react-icons/fi';
 
 import {
   Container,
@@ -12,7 +12,8 @@ import {
   ListGroup,
   ListGroupItem,
   Badge,
-  TaskTitle
+  TaskTitle,
+  Alert
 } from '../styles/pages/Home';
 
 interface Task {
@@ -22,6 +23,7 @@ interface Task {
 
 function Home() {
   const [taskList, setTaskList] = useState<Task[]>([]);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     const storage = localStorage.getItem("ToDoList/tasks");
@@ -54,6 +56,12 @@ function Home() {
     setTaskList(copy);
   }, [taskList]);
 
+  const handleDeleteAll = useCallback(() => {
+    setShow(false);
+    setTaskList([]);
+    localStorage.removeItem("ToDoList/tasks");
+  }, []);
+
   return (
     <Container>
       <Title>To-Do List</Title>
@@ -75,8 +83,36 @@ function Home() {
         </InputGroup>
       </Form>
 
+      <Alert show={show} variant="danger">
+        <Alert.Heading>Atenção!</Alert.Heading>
+        <p>
+          Você tem certeza que deseja apagar toda a sua lista de tarefas?
+        </p>
+        <hr />
+        <div className="d-flex justify-content-end">
+          <Button onClick={() => setShow(false)} variant="outline-info">
+            Melhor não!
+          </Button>
+          <Button onClick={handleDeleteAll} variant="outline-danger">
+            Confirmo, quero apagar!
+          </Button>
+        </div>
+      </Alert>
+
       <Card>
-        <Card.Header>Lista de tarefas</Card.Header>
+        <Card.Header>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <p>
+              Lista de tarefas
+            </p>
+            {taskList.length > 0 ? (
+              <Button variant="danger" onClick={() => setShow(true)}>
+                <FiTrash size={20} color={'#fff'} />
+              </Button>
+            ) : ('')}
+          </div>
+        </Card.Header>
+
         <ListGroup variant="flush" >
           {taskList && (taskList.map((task, index) => (
             <ListGroupItem key={index}>

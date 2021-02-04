@@ -6,7 +6,8 @@ import {
   FormControl as BFormControl,
   ListGroup as BListGroup,
   Card as BCard,
-  Badge as BBadge
+  Badge as BBadge,
+  Alert as BAlert
 } from 'react-bootstrap';
 
 
@@ -62,3 +63,5 @@ export const TaskTitle = styled.p`
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
+
+export const Alert = styled(BAlert)``;
