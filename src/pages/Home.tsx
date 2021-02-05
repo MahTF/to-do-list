@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { FiTrash, FiTrash2, FiSquare, FiXSquare } from 'react-icons/fi';
+import { FiTrash, FiTrash2, FiSquare, FiXSquare, FiEdit3 } from 'react-icons/fi';
 
 import {
   Container,
@@ -19,11 +19,13 @@ import {
 interface Task {
   title: string;
   status: boolean;
+  edit: boolean;
 }
 
 function Home() {
   const [taskList, setTaskList] = useState<Task[]>([]);
   const [show, setShow] = useState(false);
+  const [id, setId] = useState<number>(0);
 
   useEffect(() => {
     const storage = localStorage.getItem("ToDoList/tasks");
@@ -38,7 +40,11 @@ function Home() {
 
   const handleSubmit = useCallback((event) => {
     event.preventDefault();
-    const input: Task = { title: event.target[0].value, status: false }
+    const input: Task = {
+      title: event.target[0].value,
+      status: false,
+      edit: false
+    }
 
     setTaskList([...taskList, input]);
     event.target[0].value = '';
@@ -61,6 +67,26 @@ function Home() {
     setTaskList([]);
     localStorage.removeItem("ToDoList/tasks");
   }, []);
+
+  const handleEdit = useCallback((index) => {
+    const copy = [...taskList];
+    copy[index].edit = !copy[index].edit;
+    setTaskList(copy);
+    setId(index);
+  }, [taskList]);
+
+  const handleEditFinish = useCallback((event) => {
+    event.preventDefault();
+    const copy = [...taskList];
+    const input: Task = {
+      title: event.target[0].value,
+      status: false,
+      edit: false
+    }
+
+    copy[id] = input;
+    setTaskList(copy);
+  }, [taskList, id]);
 
   return (
     <Container>
@@ -116,28 +142,54 @@ function Home() {
         <ListGroup variant="flush" >
           {taskList && (taskList.map((task, index) => (
             <ListGroupItem key={index}>
-              <TaskTitle
-                style={task.status ? { textDecoration: 'line-through' } : {}}
-              >
-                {task.title}
-              </TaskTitle>
-              <div>
-                <Button
-                  variant="primary"
-                  onClick={() => handleStatus(index)}
+              {task.edit ?
+                <Form onSubmit={handleEditFinish}>
+                  <InputGroup>
+                    <FormControl
+                      placeholder={task.title}
+                      aria-label={task.title}
+                      aria-describedby="basic-addon2"
+                    />
+                    <InputGroup.Append>
+                      <Button
+                        type="submit"
+                        variant="outline-info"
+                      >
+                        Alterar
+                      </Button>
+                    </InputGroup.Append>
+                  </InputGroup>
+                </Form>
+                : <TaskTitle
+                  style={task.status ? { textDecoration: 'line-through' } : {}}
                 >
-                  {task.status ?
-                    <FiXSquare size={20} color={'#fff'} /> :
-                    <FiSquare size={20} color={'#fff'} />
-                  }
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => handleDelete(index)}
-                >
-                  <FiTrash2 size={20} color={'#fff'} />
-                </Button>
-              </div>
+                  {task.title}
+                </TaskTitle>}
+
+              {!task.edit &&
+                (<div>
+                  <Button
+                    variant="info"
+                    onClick={() => handleEdit(index)}
+                  >
+                    <FiEdit3 size={20} color={'#fff'} />
+                  </Button>
+                  <Button
+                    variant="primary"
+                    onClick={() => handleStatus(index)}
+                  >
+                    {task.status ?
+                      <FiXSquare size={20} color={'#fff'} /> :
+                      <FiSquare size={20} color={'#fff'} />
+                    }
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDelete(index)}
+                  >
+                    <FiTrash2 size={20} color={'#fff'} />
+                  </Button>
+                </div>)}
             </ListGroupItem>
           )))}
           <ListGroup.Item >
