@@ -13,13 +13,15 @@ import {
   ListGroupItem,
   Badge,
   TaskTitle,
-  Alert
+  Alert,
+  ButtonsGroup
 } from '../styles/pages/Home';
 
 interface Task {
   title: string;
   status: boolean;
   edit: boolean;
+  lastEditAt: string;
 }
 
 function Home() {
@@ -40,10 +42,14 @@ function Home() {
 
   const handleSubmit = useCallback((event) => {
     event.preventDefault();
+    const fullDate = new Date();
+    const date = fullDate.toLocaleDateString('br');
+    const time = fullDate.toLocaleTimeString('br');
     const input: Task = {
       title: event.target[0].value,
       status: false,
-      edit: false
+      edit: false,
+      lastEditAt: `${date} - ${time}`
     }
 
     setTaskList([...taskList, input]);
@@ -78,10 +84,14 @@ function Home() {
   const handleEditFinish = useCallback((event) => {
     event.preventDefault();
     const copy = [...taskList];
+    const fullDate = new Date();
+    const date = fullDate.toLocaleDateString('br');
+    const time = fullDate.toLocaleTimeString('br');
     const input: Task = {
       title: event.target[0].value,
       status: false,
-      edit: false
+      edit: false,
+      lastEditAt: `${date} - ${time}`
     }
 
     copy[id] = input;
@@ -164,10 +174,14 @@ function Home() {
                   style={task.status ? { textDecoration: 'line-through' } : {}}
                 >
                   {task.title}
+                  <br />
+                  Última modificação em:
+                  <br />
+                  {task.lastEditAt}
                 </TaskTitle>}
 
               {!task.edit &&
-                (<div>
+                (<ButtonsGroup>
                   <Button
                     variant="info"
                     onClick={() => handleEdit(index)}
@@ -189,7 +203,7 @@ function Home() {
                   >
                     <FiTrash2 size={20} color={'#fff'} />
                   </Button>
-                </div>)}
+                </ButtonsGroup>)}
             </ListGroupItem>
           )))}
           <ListGroup.Item >

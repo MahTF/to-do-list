@@ -58,10 +58,17 @@ export const ListGroupItem = styled(BListGroup.Item)`
 export const Badge = styled(BBadge)``;
 
 export const TaskTitle = styled.p`
-  max-width: 15ch;
+  max-width: 40ch;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 30px;
 `;
 
 export const Alert = styled(BAlert)``;
+
+export const ButtonsGroup = styled.div`
+  display: flex;
+  align-items: center;
+  justify-items: space-between;
+`;
