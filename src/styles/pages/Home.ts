@@ -7,7 +7,8 @@ import {
   ListGroup as BListGroup,
   Card as BCard,
   Badge as BBadge,
-  Alert as BAlert
+  Alert as BAlert,
+  Dropdown as BDropdown
 } from 'react-bootstrap';
 
 
@@ -29,6 +30,10 @@ export const Form = styled(BForm)`
   display: flex;
   flex-direction: column;
   width: 50vw;
+
+  @media(max-width: 800px) {
+    width: 80vw;
+  }
 `;
 
 export const InputGroup = styled(BInputGroup)`
@@ -46,6 +51,19 @@ export const Card = styled(BCard)`
   display: flex;
   flex-direction: column;
   width: 50vw;
+
+  @media(max-width: 800px){
+    width: 80vw;
+  }
+`;
+
+export const CardContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  
+  p {
+    padding-top: 5px;
+  }
 `;
 
 export const ListGroup = styled(BListGroup)``;
@@ -65,10 +83,27 @@ export const TaskTitle = styled.p`
   line-height: 30px;
 `;
 
-export const Alert = styled(BAlert)``;
+export const Alert = styled(BAlert)`
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+`;
 
 export const ButtonsGroup = styled.div`
   display: flex;
   align-items: center;
   justify-items: space-between;
+
+  @media(max-width: 800px)
+  {
+    display: none;
+  }
+`;
+
+export const Dropdown = styled(BDropdown)`
+  display: none;
+
+  @media(max-width: 800px) {
+    display: block;
+  }
 `;

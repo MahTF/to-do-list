@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { FiTrash, FiTrash2, FiSquare, FiXSquare, FiEdit3 } from 'react-icons/fi';
+import { FiTrash, FiTrash2, FiSquare, FiXSquare, FiEdit3, FiMenu } from 'react-icons/fi';
 
 import {
   Container,
@@ -7,6 +7,7 @@ import {
   Form,
   InputGroup,
   Card,
+  CardContent,
   Button,
   FormControl,
   ListGroup,
@@ -14,7 +15,8 @@ import {
   Badge,
   TaskTitle,
   Alert,
-  ButtonsGroup
+  ButtonsGroup,
+  Dropdown
 } from '../styles/pages/Home';
 
 interface Task {
@@ -137,7 +139,7 @@ function Home() {
 
       <Card>
         <Card.Header>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <CardContent>
             <p>
               Lista de tarefas
             </p>
@@ -146,7 +148,7 @@ function Home() {
                 <FiTrash size={20} color={'#fff'} />
               </Button>
             ) : ('')}
-          </div>
+          </CardContent>
         </Card.Header>
 
         <ListGroup variant="flush" >
@@ -175,35 +177,64 @@ function Home() {
                 >
                   {task.title}
                   <br />
-                  Última modificação em:
+                  Última modificação:
                   <br />
                   {task.lastEditAt}
                 </TaskTitle>}
 
               {!task.edit &&
-                (<ButtonsGroup>
-                  <Button
-                    variant="info"
-                    onClick={() => handleEdit(index)}
-                  >
-                    <FiEdit3 size={20} color={'#fff'} />
-                  </Button>
-                  <Button
-                    variant="primary"
-                    onClick={() => handleStatus(index)}
-                  >
-                    {task.status ?
-                      <FiXSquare size={20} color={'#fff'} /> :
-                      <FiSquare size={20} color={'#fff'} />
-                    }
-                  </Button>
-                  <Button
-                    variant="danger"
-                    onClick={() => handleDelete(index)}
-                  >
-                    <FiTrash2 size={20} color={'#fff'} />
-                  </Button>
-                </ButtonsGroup>)}
+                (<div>
+                  <ButtonsGroup>
+                    <Button
+                      variant="info"
+                      onClick={() => handleEdit(index)}
+                    >
+                      <FiEdit3 size={20} color={'#fff'} />
+                    </Button>
+                    <Button
+                      variant="primary"
+                      onClick={() => handleStatus(index)}
+                    >
+                      {task.status ?
+                        <FiXSquare size={20} color={'#fff'} /> :
+                        <FiSquare size={20} color={'#fff'} />
+                      }
+                    </Button>
+                    <Button
+                      variant="danger"
+                      onClick={() => handleDelete(index)}
+                    >
+                      <FiTrash2 size={20} color={'#fff'} />
+                    </Button>
+
+                  </ButtonsGroup>
+                  <Dropdown>
+                    <Dropdown.Toggle variant="secondary">
+                      <FiMenu size={20} color={'#fff'} />
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        as="button"
+                        onClick={() => handleEdit(index)}
+                      >
+                        Editar
+                        </Dropdown.Item>
+                      <Dropdown.Item
+                        as="button"
+                        onClick={() => handleStatus(index)}
+                      >
+                        Concluir
+                        </Dropdown.Item>
+                      <Dropdown.Item
+                        as="button"
+                        onClick={() => handleDelete(index)}
+                      >
+                        Excluir
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>)}
             </ListGroupItem>
           )))}
           <ListGroup.Item >
