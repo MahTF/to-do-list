@@ -14,12 +14,12 @@ import {
   ListGroupItem,
   Badge,
   TaskTitle,
-  Alert,
   ButtonsGroup,
   Dropdown
 } from '../styles/pages/Home';
 import ITask from '../utils/ITask';
 import TaskAdding from '../components/TaskAdding';
+import AlertDeleteAll from '../components/AlertDeleteAll';
 
 function Home() {
   const [taskList, setTaskList] = useState<ITask[]>([]);
@@ -28,7 +28,7 @@ function Home() {
 
   useEffect(() => {
     const storage = localStorage.getItem("ToDoList/tasks");
-    if (storage !== null) {      
+    if (storage !== null) {
       setTaskList(JSON.parse(storage));
     }
   }, []);
@@ -48,12 +48,6 @@ function Home() {
     copy.splice(index, 1);
     setTaskList(copy);
   }, [taskList]);
-
-  const handleDeleteAll = useCallback(() => {
-    setShow(false);
-    setTaskList([]);
-    localStorage.removeItem("ToDoList/tasks");
-  }, []);
 
   const handleEdit = useCallback((index) => {
     const copy = [...taskList];
@@ -88,21 +82,11 @@ function Home() {
         setTaskList={setTaskList} 
       />
 
-      <Alert show={show} variant="danger">
-        <Alert.Heading>Atenção!</Alert.Heading>
-        <p>
-          Você tem certeza que deseja apagar toda a sua lista de tarefas?
-        </p>
-        <hr />
-        <div className="d-flex justify-content-end">
-          <Button onClick={() => setShow(false)} variant="outline-info">
-            Melhor não!
-          </Button>
-          <Button onClick={handleDeleteAll} variant="outline-danger">
-            Confirmo, quero apagar!
-          </Button>
-        </div>
-      </Alert>
+      <AlertDeleteAll
+        show={show}
+        setShow={setShow}
+        setTaskList={setTaskList}
+      />
 
       <Card>
         <Card.Header>
