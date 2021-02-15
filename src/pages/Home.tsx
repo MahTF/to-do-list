@@ -18,44 +18,23 @@ import {
   ButtonsGroup,
   Dropdown
 } from '../styles/pages/Home';
-
-interface Task {
-  title: string;
-  status: boolean;
-  edit: boolean;
-  lastEditAt: string;
-}
+import ITask from '../utils/ITask';
+import TaskAdding from '../components/TaskAdding';
 
 function Home() {
-  const [taskList, setTaskList] = useState<Task[]>([]);
+  const [taskList, setTaskList] = useState<ITask[]>([]);
   const [show, setShow] = useState(false);
   const [id, setId] = useState<number>(0);
 
   useEffect(() => {
     const storage = localStorage.getItem("ToDoList/tasks");
-    if (storage !== null) {
+    if (storage !== null) {      
       setTaskList(JSON.parse(storage));
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("ToDoList/tasks", JSON.stringify(taskList));
-  }, [taskList]);
-
-  const handleSubmit = useCallback((event) => {
-    event.preventDefault();
-    const fullDate = new Date();
-    const date = fullDate.toLocaleDateString('br');
-    const time = fullDate.toLocaleTimeString('br');
-    const input: Task = {
-      title: event.target[0].value,
-      status: false,
-      edit: false,
-      lastEditAt: `${date} - ${time}`
-    }
-
-    setTaskList([...taskList, input]);
-    event.target[0].value = '';
   }, [taskList]);
 
   const handleStatus = useCallback(index => {
@@ -89,7 +68,7 @@ function Home() {
     const fullDate = new Date();
     const date = fullDate.toLocaleDateString('br');
     const time = fullDate.toLocaleTimeString('br');
-    const input: Task = {
+    const input: ITask = {
       title: event.target[0].value,
       status: false,
       edit: false,
@@ -104,22 +83,10 @@ function Home() {
     <Container>
       <Title>To-Do List</Title>
 
-      <Form onSubmit={handleSubmit}>
-        <InputGroup>
-          <FormControl
-            placeholder="Insira a tarefa"
-            aria-label="Insira a tarefa"
-            aria-describedby="basic-addon2"
-          />
-          <InputGroup.Append>
-            <Button
-              type="submit"
-              variant="outline-primary"
-            >Adicionar
-          </Button>
-          </InputGroup.Append>
-        </InputGroup>
-      </Form>
+      <TaskAdding 
+        taskList={taskList}
+        setTaskList={setTaskList} 
+      />
 
       <Alert show={show} variant="danger">
         <Alert.Heading>Atenção!</Alert.Heading>
