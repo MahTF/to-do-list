@@ -56,8 +56,6 @@
   <a href="#memo-license">License</a>
 </p>
 
-> Em desenvolvimento...
-
 ## :clipboard: Descrição
 Projeto para estudo de React visando realizar uma TO-DO List. 
 

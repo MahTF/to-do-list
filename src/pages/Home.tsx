@@ -26,9 +26,9 @@ function Home() {
     <Container>
       <Title>To-Do List</Title>
 
-      <TaskAdding 
+      <TaskAdding
         taskList={taskList}
-        setTaskList={setTaskList} 
+        setTaskList={setTaskList}
       />
 
       <AlertDeleteAll
@@ -44,7 +44,7 @@ function Home() {
         setTaskList={setTaskList}
         setId={setId}
       />
-    </Container >
+    </Container>
   );
 }
 
